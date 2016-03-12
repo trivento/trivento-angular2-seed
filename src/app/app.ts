@@ -39,20 +39,23 @@ import {UsersRoute} from './users/routes/UsersRoute/UsersRoute';
       <nav>
         <h1>Hello {{ name }}</h1>
         <ul>
-          <li router-active>
+          <li>
             <a [routerLink]=" ['Index'] ">Index</a>
           </li>
-          <li router-active>
+          <li>
             <a [routerLink]=" ['Home'] ">Home</a>
           </li>
-          <li router-active>
+          <li>
+            <a [routerLink]=" ['Users', 'UsersList'] ">Users</a>
+          </li>
+          <li>
             <a [routerLink]=" ['About'] ">About</a>
           </li>
         </ul>
       </nav>
     </header>
 
-    <main>
+    <main style="border:1px solid red">
       <router-outlet></router-outlet>
     </main>
 

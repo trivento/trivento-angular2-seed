@@ -23,10 +23,10 @@ if ('production' === process.env.ENV) {
 
   // RxJS
   // to include every operator uncomment
-  // require('rxjs/Rx');
+  require('rxjs/Rx');
 
-  require('rxjs/add/operator/map');
-  require('rxjs/add/operator/mergeMap');
+  //require('rxjs/add/operator/map');
+  //require('rxjs/add/operator/mergeMap');
 
 }
 

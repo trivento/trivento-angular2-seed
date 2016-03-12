@@ -25,6 +25,9 @@ if ('production' === process.env.ENV) {
  */
 import {App} from './app/app';
 
+import {provideStore} from '@ngrx/store';
+import {users} from './app/users/reducers/users';
+
 /*
  * Bootstrap our Angular app with a top level component `App` and inject
  * our Services and Providers into Angular's dependency injection
@@ -34,7 +37,8 @@ export function main() {
     ...ENV_PROVIDERS,
     ...HTTP_PROVIDERS,
     ...ROUTER_PROVIDERS,
-    ngCore.provide(LocationStrategy, { useClass: HashLocationStrategy })
+    ngCore.provide(LocationStrategy, { useClass: HashLocationStrategy }),
+    provideStore({users})
   ])
   .catch(err => console.error(err));
 }

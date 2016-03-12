@@ -7,6 +7,8 @@ import {FORM_PROVIDERS} from 'angular2/common';
 
 import {RouterActive} from './directives/router-active';
 import {Home} from './home/home';
+import {API_PROVIDERS} from './users/services/api';
+import {UsersRoute} from './users/routes/UsersRoute/UsersRoute';
 
 /*
  * App Component
@@ -14,8 +16,8 @@ import {Home} from './home/home';
  */
 @Component({
   selector: 'app',
-  providers: [ ...FORM_PROVIDERS ],
-  directives: [ ...ROUTER_DIRECTIVES, RouterActive ],
+  providers: [ FORM_PROVIDERS, API_PROVIDERS ],
+  directives: [ ROUTER_DIRECTIVES, RouterActive ],
   pipes: [],
   styles: [`
     nav ul {
@@ -67,6 +69,11 @@ import {Home} from './home/home';
   { path: '/home', component: Home, name: 'Home' },
   // Async load a component using Webpack's require with es6-promise-loader and webpack `require`
   { path: '/about', loader: () => require('es6-promise!./about/about')('About'), name: 'About' },
+  {
+    path: '/users/...',
+    component: UsersRoute,
+    as: 'Users'
+  },
   { path: '/**', redirectTo: ['Index'] }
 ])
 export class App {

@@ -28,7 +28,7 @@ import * as _ from 'lodash'
  * see https://github.com/typings/registry
  *
  */
-
+///<reference path='../node_modules/immutable/dist/immutable.d.ts'/>
 
 interface WebpackModule {
   hot: {

@@ -9,6 +9,8 @@ import {RouterActive} from './directives/router-active';
 import {Home} from './home/home';
 import {API_PROVIDERS} from './users/services/api';
 import {UsersRoute} from './users/routes/UsersRoute/UsersRoute';
+import {NotesList} from "./notes/NotesList";
+import {NotesComponent} from "./notes/NotesComponent";
 
 /*
  * App Component
@@ -46,6 +48,9 @@ import {UsersRoute} from './users/routes/UsersRoute/UsersRoute';
             <a [routerLink]=" ['Home'] ">Home</a>
           </li>
           <li>
+            <a [routerLink]=" ['Notes'] ">Notes</a>
+          </li>
+          <li>
             <a [routerLink]=" ['Users', 'UsersList'] ">Users</a>
           </li>
           <li>
@@ -72,6 +77,7 @@ import {UsersRoute} from './users/routes/UsersRoute/UsersRoute';
   { path: '/home', component: Home, name: 'Home' },
   // Async load a component using Webpack's require with es6-promise-loader and webpack `require`
   { path: '/about', loader: () => require('es6-promise!./about/about')('About'), name: 'About' },
+  { path: '/notes', component: NotesComponent, name: 'Notes'},
   {
     path: '/users/...',
     component: UsersRoute,

@@ -59,8 +59,7 @@ export class NoteDetail {
   }
 
   save() {
-    this.store.dispatch(this.selectedNote.id ?
-      NotesActions.updateNote(this.selectedNote) : NotesActions.createNote(this.selectedNote));
+    this.noteService.saveNote(this.selectedNote);
     this.cancel();
   }
 }

@@ -12,23 +12,20 @@ import {Input} from "angular2/core";
 @Component({
   selector: 'notes-list',
   template: `
-    <h3>NOTES LIST</h3>
     <ul>
-      <li *ngFor="#note of notes" (click)="selectNote(note)">{{note.title}} <span (click)="deleteNote(note)">X</span></li>
+      <li *ngFor="#note of notes" (click)="selectNote(note)">
+        {{note.title}}
+        <button (click)="deleteNote(note)">X</button>
+      </li>
     </ul>
-    <h3>NOTES LIST END</h3>
-  `
+  `,
+  styles: [`
+    li { cursor: pointer; }
+    li:hover { background-color: #ccc; }
+  `]
 })
 export class NotesList {
-  //@Input('notes') notes: Note[];
-  private _notes: Note[];
-  @Input('notes') set notes(value: Note[]) {
-    console.log('NotesList got notes', value);
-    this._notes = value;
-  }
-  get notes() {
-    return this._notes;
-  }
+  @Input('notes') notes: Note[];
 
   constructor(private noteService: NoteService, private store: Store<NotesState>) {
   }
@@ -38,6 +35,6 @@ export class NotesList {
   }
 
   deleteNote(note: Note) {
-    this.store.dispatch(NotesActions.deleteNote(note));
+    this.noteService.deleteNote(note);
   }
 }

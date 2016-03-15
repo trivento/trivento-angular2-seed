@@ -26,9 +26,7 @@ export class NotesComponent {
 
   constructor(private noteService: NoteService, private store: Store<NotesState>) {
     this.notes = noteService.notes;
-    this.notes.subscribe(nn => console.log('NotesComponent got notes', nn));
     this.selectedNote = store.select('selectedNoteReducer');
-    this.selectedNote.subscribe(note => console.log('selected note', note));
     noteService.getAll();
   }
 

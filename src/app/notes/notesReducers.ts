@@ -1,10 +1,7 @@
 import {Reducer, Action} from '@ngrx/store';
 import {Note} from "./Note";
 import * as _ from 'lodash';
-
-export enum NotesActionType {
-  GET, GET_ALL, CREATE, UPDATE, DELETE, SELECT
-}
+import {NoteActionType} from './NoteActions';
 
 export interface NotesState {
   notes: Note[];
@@ -12,21 +9,28 @@ export interface NotesState {
 }
 
 export const notesReducer: Reducer<any> = (state: any = [], action: Action) => {
-  console.log('notesReducer ' + NotesActionType[action.type] + ' = ' + action.type);
-  console.log('notesReducer', action.payload);
   switch (action.type) {
-    case NotesActionType.GET_ALL:
+    case NoteActionType.GET_ALL:
       return action.payload;
-    case NotesActionType.CREATE:
+    case NoteActionType.CREATE:
       return [...state, action.payload];
-    case NotesActionType.UPDATE:
+    case NoteActionType.UPDATE:
       return state.map(note => {
         return note.id === action.payload.id ? Object.assign({}, note, action.payload) : note;
       });
-    case NotesActionType.DELETE:
+    case NoteActionType.DELETE:
       return state.filter(note => {
         return note.id !== action.payload.id;
       });
+    default:
+      return state;
+  }
+};
+
+export const selectedNoteReducer: Reducer<Note> = (state: Note = null, action: Action) => {
+  switch (action.type) {
+    case NoteActionType.SELECT:
+      return action.payload;
     default:
       return state;
   }

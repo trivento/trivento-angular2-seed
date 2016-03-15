@@ -1,10 +1,9 @@
 import {Store} from '@ngrx/store';
 import {Observable} from "rxjs/Observable";
 import {Component} from "angular2/core";
-import {NotesState} from "./notesReducer";
-import {NotesActionType} from "./notesReducer";
+import {NotesState} from "./notesReducers";
 import {ChangeDetectionStrategy} from "angular2/core";
-import {NotesActions} from "./NotesActions";
+import {NoteActions} from "./NoteActions";
 import {NoteService} from "./NoteService";
 import {Note} from "./Note";
 import {Input} from "angular2/core";
@@ -52,7 +51,7 @@ export class NoteDetail {
   }
 
   cancel() {
-    this.store.dispatch(NotesActions.selectNote(new Note('', '')));
+    this.store.dispatch(NoteActions.selectNote(new Note('', '')));
   }
 
   save() {

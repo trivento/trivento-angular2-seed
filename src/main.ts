@@ -26,9 +26,7 @@ if ('production' === process.env.ENV) {
 import {App} from './app/app';
 
 import {provideStore} from '@ngrx/store';
-import {users} from './app/users/reducers/users';
-import {notesReducer} from './app/notes/notesReducer';
-import {selectedNoteReducer} from './app/notes/selectedNoteReducer';
+import {notesReducer, selectedNoteReducer} from './app/notes/notesReducers';
 import {NoteService} from "./app/notes/NoteService";
 
 /*
@@ -42,7 +40,6 @@ export function main() {
     ...ROUTER_PROVIDERS,
     ngCore.provide(LocationStrategy, { useClass: HashLocationStrategy }),
     NoteService,
-    provideStore({users}),
     provideStore({notesReducer, selectedNoteReducer})
   ])
   .catch(err => console.error(err));

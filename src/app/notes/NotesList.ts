@@ -1,10 +1,9 @@
 import {Store} from '@ngrx/store';
 import {Observable} from "rxjs/Observable";
 import {Component} from "angular2/core";
-import {NotesState} from "./notesReducer";
-import {NotesActionType} from "./notesReducer";
+import {NotesState} from "./notesReducers";
 import {ChangeDetectionStrategy} from "angular2/core";
-import {NotesActions} from "./NotesActions";
+import {NoteActions} from "./NoteActions";
 import {NoteService} from "./NoteService";
 import {Note} from "./Note";
 import {Input} from "angular2/core";
@@ -31,7 +30,7 @@ export class NotesList {
   }
 
   selectNote(note: Note) {
-    this.store.dispatch(NotesActions.selectNote(note));
+    this.store.dispatch(NoteActions.selectNote(note));
   }
 
   deleteNote(note: Note) {

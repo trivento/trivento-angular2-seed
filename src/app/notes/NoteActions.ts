@@ -1,40 +1,43 @@
 import { Action, Reducer, Store } from '@ngrx/store';
-import {NotesActionType} from "./notesReducer";
 import {Note} from "./Note";
 
-export class NotesActions {
+export enum NoteActionType {
+  GET_ALL, CREATE, UPDATE, DELETE, SELECT
+}
+
+export class NoteActions {
 
   static getAll(notes: Note[]): Action {
     return {
-      type: NotesActionType.GET_ALL,
+      type: NoteActionType.GET_ALL,
       payload: notes
     };
   }
 
   static selectNote(note: Note): Action {
     return {
-      type: NotesActionType.SELECT,
+      type: NoteActionType.SELECT,
       payload: note
     };
   }
 
   static deleteNote(note: Note): Action {
     return {
-      type: NotesActionType.DELETE,
+      type: NoteActionType.DELETE,
       payload: note
     };
   }
 
   static createNote(note: Note): Action {
     return {
-      type: NotesActionType.CREATE,
+      type: NoteActionType.CREATE,
       payload: note
     };
   }
 
   static updateNote(note: Note): Action {
     return {
-      type: NotesActionType.UPDATE,
+      type: NoteActionType.UPDATE,
       payload: note
     };
   }

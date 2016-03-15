@@ -14,8 +14,8 @@ import {Input} from "angular2/core";
   template: `
     <div>
       <div>
-        <h2 *ngIf="selectedNote.id">Editing {{originalTitle}}</h2>
-        <h2 *ngIf="!selectedNote.id">Create New Note</h2>
+        <h3 *ngIf="selectedNote.id">Editing {{originalTitle}}</h3>
+        <h3 *ngIf="!selectedNote.id">Create New Note</h3>
       </div>
       <div>
         <form novalidate>
@@ -30,9 +30,6 @@ import {Input} from "angular2/core";
           <div>
             <button type="button" (click)="cancel()">Cancel</button>
             <button type="submit" (click)="save()">Save</button>
-          </div>
-          <div>
-            <button>Save</button>
           </div>
         </form>
       </div>

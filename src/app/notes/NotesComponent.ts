@@ -14,10 +14,9 @@ import {NoteDetail} from "./NoteDetail";
   selector: 'notes',
   directives: [NotesList, NoteDetail],
   template: `
-    <h3>NOTES</h3>
+    <h2>Notes</h2>
     <notes-list [notes]="notes | async"></notes-list>
     <note-detail [note]="selectedNote | async"></note-detail>
-    <h3>NOTES END</h3>
   `
 })
 export class NotesComponent {

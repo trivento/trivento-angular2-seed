@@ -19,11 +19,12 @@ export class NoteService {
     this.notes.subscribe(nn => console.log('NoteService got notes', nn));
   }
 
+  //TODO error handling
   getAll() {
     this.http.get(BASE_URL)
       .map(res => res.json())
       .map(payload => NotesActions.getAll(payload))
-      .subscribe(action => this.store.dispatch(action));
+      .subscribe(action => this.store.dispatch(action), (x) => console.log('ERROR', x));
   }
 
   saveNote(note: Note) {
@@ -32,14 +33,20 @@ export class NoteService {
 
   updateNote(note: Note) {
     this.store.dispatch(NotesActions.updateNote(note));
+    this.http.put(BASE_URL + note.id, JSON.stringify(note), HEADER)
+      .map(res => res.json())
+      .subscribe(payload => this.store.dispatch(NotesActions.updateNote(payload)));
   }
 
   createNote(note: Note) {
-    let noteWithId: Note = Object.assign({}, note, {id: Math.random().toString().substring(2)});
-    this.store.dispatch(NotesActions.createNote(noteWithId));
+    let noteWithId: Note = Object.assign({}, note, {id: Math.ceil(Math.random() * 1000000)});
+    this.http.post(BASE_URL, JSON.stringify(noteWithId), HEADER)
+      .map(res => res.json())
+      .subscribe(payload => this.store.dispatch(NotesActions.createNote(payload)));
   }
 
   deleteNote(note: Note) {
-    this.store.dispatch(NotesActions.deleteNote(note));
+    this.http.delete(BASE_URL + note.id)
+      .subscribe(() => this.store.dispatch(NotesActions.deleteNote(note)));
   }
 }

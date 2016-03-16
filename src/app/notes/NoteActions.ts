@@ -1,8 +1,12 @@
 import { Action, Reducer, Store } from '@ngrx/store';
 import {Note} from './Note';
 
-export enum NoteActionType {
-  GET_ALL, CREATE, UPDATE, DELETE, SELECT
+export class NoteActionType {
+  static GET_ALL = 'GET_ALL';
+  static CREATE = 'CREATE';
+  static UPDATE = 'UPDATE';
+  static DELETE = 'DELETE';
+  static SELECT = 'SELECT';
 }
 
 export class NoteActions {

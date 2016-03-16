@@ -6,21 +6,21 @@ import { normalize, arrayOf, Schema } from 'normalizr';
 import { List, Map, Record, fromJS } from 'immutable';
 import { ApiService } from '../services/api';
 
-export const LOADING_USERS = 1;
-export const LOADED_USERS = 2;
-export const LOADING_USER = 3;
-export const LOADED_USER = 4;
-export const ADDING_USER = 5;
-export const ADDED_USER = 6;
-export const DELETING_USER = 7;
-export const DELETED_USER = 8;
-export const PATCHED_USER = 9;
+export const LOADING_USERS = 'LOADING_USERS';
+export const LOADED_USERS = 'LOADED_USERS';
+export const LOADING_USER = 'LOADING_USER';
+export const LOADED_USER = 'LOADED_USER';
+export const ADDING_USER = 'ADDING_USER';
+export const ADDED_USER = 'ADDED_USER';
+export const DELETING_USER = 'DELETING_USER';
+export const DELETED_USER = 'DELETED_USER';
+export const PATCHED_USER = 'PATCHED_USER';
 
-const PATCH_USER = 10;
-const DELETE_USER = 11;
-const ADD_USER = 12;
-const LOAD_USER = 13;
-const LOAD_USERS = 14;
+const PATCH_USER = 'PATCH_USER';
+const DELETE_USER = 'DELETE_USER';
+const ADD_USER = 'ADD_USER';
+const LOAD_USER = 'LOAD_USER';
+const LOAD_USERS = 'LOAD_USERS';
 
 export const userSchema = new Schema('users');
 export const UserRecord = Record({

@@ -25,7 +25,7 @@ describe('NoteService', () => {
   let receivedActions: Action[];
 
   let mockReducer: Reducer<any> = (state: any = [], action: Action) => {
-    if (action.type.toString() !== '@@ngrx/INIT') {
+    if (action.type !== '@@ngrx/INIT') {
       receivedActions.push(action);
     }
     return state;

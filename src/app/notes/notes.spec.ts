@@ -9,7 +9,7 @@ describe('Notes', () => {
   describe('selectedNote store', () => {
     const NOTE = new Note('note a', '', 1);
     it('returns null by default', () => {
-      let defaultState = selectedNoteReducer(undefined, {type: -1});
+      let defaultState = selectedNoteReducer(undefined, {type: 'random'});
 
       expect(defaultState).toBeNull();
     });
@@ -32,7 +32,7 @@ describe('Notes', () => {
     });
 
     it('returns an empty notes list by default', () => {
-      let defaultState = notesReducer(undefined, {type: -1});
+      let defaultState = notesReducer(undefined, {type: 'random'});
 
       expect(defaultState).toEqual([]);
     });

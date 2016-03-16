@@ -1,5 +1,5 @@
 import { Action, Reducer, Store } from '@ngrx/store';
-import {Note} from "./Note";
+import {Note} from './Note';
 
 export enum NoteActionType {
   GET_ALL, CREATE, UPDATE, DELETE, SELECT

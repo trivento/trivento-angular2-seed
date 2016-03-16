@@ -30,7 +30,7 @@ module.exports = function(config) {
       dir : 'coverage/',
       reporters: [
         { type: 'text-summary' },
-        { type: 'json' },
+        { type: 'json', subdir: '.', file: 'coverage-final.json' },
         { type: 'html' }
       ]
     },

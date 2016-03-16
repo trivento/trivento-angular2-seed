@@ -1,9 +1,9 @@
-import {Injectable} from "angular2/core";
-import {Observable} from "rxjs/Observable";
-import {Note} from "./Note";
+import {Injectable} from 'angular2/core';
+import {Observable} from 'rxjs/Observable';
+import {Note} from './Note';
 import {Store} from '@ngrx/store';
-import {NotesState} from "./notesReducers";
-import {NoteActions} from "./NoteActions";
+import {NotesState} from './notesReducers';
+import {NoteActions} from './NoteActions';
 import {Http, Headers} from 'angular2/http';
 
 const BASE_URL = 'http://localhost:3100/note/';

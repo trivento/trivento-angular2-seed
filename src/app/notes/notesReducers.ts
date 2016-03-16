@@ -1,5 +1,5 @@
 import {Reducer, Action} from '@ngrx/store';
-import {Note} from "./Note";
+import {Note} from './Note';
 import * as _ from 'lodash';
 import {NoteActionType} from './NoteActions';
 
@@ -16,7 +16,7 @@ export const notesReducer: Reducer<any> = (state: any = [], action: Action) => {
       return [...state, action.payload];
     case NoteActionType.UPDATE:
       return state.map(note => {
-        return note.id === action.payload.id ? Object.assign({}, note, action.payload) : note;
+        return note.id === action.payload.id ? _.cloneDeep(action.payload) : note;
       });
     case NoteActionType.DELETE:
       return state.filter(note => {

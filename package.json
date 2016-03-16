@@ -41,7 +41,10 @@
     "postinstall": "npm run typings-install",
     "preversion": "npm test",
     "version": "npm run build",
-    "postversion": "git push && git push --tags"
+    "postversion": "git push && git push --tags",
+    "pretest": "npm run build",
+    "xposttest": "node_modules/.bin/remap-istanbul -i coverage/coverage-final.json -o coverage -t html",
+    "coverage": "./node_modules/http-server/bin/http-server -c-1 -o -p 9875 ./coverage"
   },
   "dependencies": {
     "@ngrx/store": "^1.2.0",

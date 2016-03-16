@@ -1,12 +1,12 @@
 import {Store} from '@ngrx/store';
-import {Observable} from "rxjs/Observable";
-import {Component} from "angular2/core";
-import {NotesState} from "./notesReducers";
-import {ChangeDetectionStrategy} from "angular2/core";
-import {NoteActions} from "./NoteActions";
-import {NoteService} from "./NoteService";
-import {Note} from "./Note";
-import {Input} from "angular2/core";
+import {Observable} from 'rxjs/Observable';
+import {Component} from 'angular2/core';
+import {NotesState} from './notesReducers';
+import {ChangeDetectionStrategy} from 'angular2/core';
+import {NoteActions} from './NoteActions';
+import {NoteService} from './NoteService';
+import {Note} from './Note';
+import {Input} from 'angular2/core';
 
 @Component({
   selector: 'note-detail',
@@ -39,7 +39,8 @@ export class NoteDetail {
   originalTitle: string;
   selectedNote: Note;
 
-  // Every time the "item" input is changed, we copy it locally (and keep the original name to display)
+  // Every time the "item" input is changed, we copy it locally
+  // (and keep the original name to display)
   @Input('note') set note(value: Note) {
     if (value) {
       this.originalTitle = value.title;

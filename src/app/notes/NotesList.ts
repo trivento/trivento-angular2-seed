@@ -1,12 +1,12 @@
 import {Store} from '@ngrx/store';
-import {Observable} from "rxjs/Observable";
-import {Component} from "angular2/core";
-import {NotesState} from "./notesReducers";
-import {ChangeDetectionStrategy} from "angular2/core";
-import {NoteActions} from "./NoteActions";
-import {NoteService} from "./NoteService";
-import {Note} from "./Note";
-import {Input} from "angular2/core";
+import {Observable} from 'rxjs/Observable';
+import {Component} from 'angular2/core';
+import {NotesState} from './notesReducers';
+import {ChangeDetectionStrategy} from 'angular2/core';
+import {NoteActions} from './NoteActions';
+import {NoteService} from './NoteService';
+import {Note} from './Note';
+import {Input} from 'angular2/core';
 
 @Component({
   selector: 'notes-list',

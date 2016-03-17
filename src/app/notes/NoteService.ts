@@ -6,6 +6,7 @@ import {NotesState} from './notesReducers';
 import {NoteActions} from './NoteActions';
 import {Http, Headers} from 'angular2/http';
 import {Toast2Service} from '../toast2/Toast2Service';
+import {Toast2Type} from '../toast2/toast2';
 
 const BASE_URL = 'http://localhost:3100/note/';
 const HEADER = { headers: new Headers({ 'Content-Type': 'application/json' }) };
@@ -20,14 +21,13 @@ export class NoteService {
     this.notes.subscribe(nn => console.log('NoteService got notes', nn));
   }
 
-  //TODO error handling
   getAll() {
     this.http.get(BASE_URL)
       .map(res => res.json())
       .map(payload => NoteActions.getAll(payload))
       .subscribe(
         action => this.store.dispatch(action),
-        error => this.toast2Service.error('Error ' + error.status));
+        error => this.toast2Service.display('Error ' + error.status, Toast2Type.ERROR));
   }
 
   saveNote(note: Note) {

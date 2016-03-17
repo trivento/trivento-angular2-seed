@@ -13,6 +13,14 @@ import {notesReducer, selectedNoteReducer} from './notesReducers';
 import {Store, Action, Reducer} from '@ngrx/store';
 import {NoteActionType} from './NoteActions';
 import {RequestMethod} from 'angular2/http';
+import {Toast2Type} from '../toast2/toast2';
+import {Toast2Service} from '../toast2/Toast2Service';
+
+class MockError extends Error {
+  constructor(status: number, message: string = undefined) {
+    super(message);
+  }
+}
 
 describe('NoteService', () => {
 
@@ -30,6 +38,7 @@ describe('NoteService', () => {
       HTTP_PROVIDERS,
       provide(XHRBackend, {useClass: MockBackend}),
       provideStore({mockReducer}),
+      Toast2Service,
       NoteService
     ];
   });
@@ -115,14 +124,14 @@ describe('NoteService', () => {
   it('should emit an error when get all notes fails',
     inject([XHRBackend, NoteService], (mockBackend, noteService) => {
       mockBackend.connections.subscribe((connection: MockConnection) => {
-        connection.mockError(new Error());
+        connection.mockError(new MockError(500));
       });
 
       noteService.getAll();
 
       expect(receivedActions.length).toEqual(1);
       let action = receivedActions[0];
-      expect(action.type).toBe('ERROR');
+      expect(action.type).toBe(Toast2Type.ERROR);
     }));
 
 });

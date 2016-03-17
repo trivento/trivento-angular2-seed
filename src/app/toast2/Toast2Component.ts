@@ -5,12 +5,10 @@ import {Toast2} from './toast2';
 @Component({
   selector: 'toast2',
   template: `
-    <div class="toast2-container">
-      <ul class="toast2-list">
-        <li *ngFor="#toast of toasts" class="toast2-item" [ngClass]="toast.type">
-          {{toast.message}}
-        </li>
-      </ul>
+    <div id="toast2-container" class="toast2-bottom-right">
+      <div *ngFor="#toast of toasts" class="toast2" [ngClass]="'toast2-' + toast.type">
+        {{toast.message}}
+      </div>
     </div>
   `
 })

@@ -7,7 +7,6 @@ import {FORM_PROVIDERS} from 'angular2/common';
 
 import {RouterActive} from './directives/router-active';
 import {Home} from './home/home';
-import {API_PROVIDERS} from './users/services/api';
 import {NotesComponent} from './notes/NotesComponent';
 import {Toast2Component} from './toast2/Toast2Component';
 
@@ -17,7 +16,7 @@ import {Toast2Component} from './toast2/Toast2Component';
  */
 @Component({
   selector: 'app',
-  providers: [ FORM_PROVIDERS, API_PROVIDERS ],
+  providers: [ FORM_PROVIDERS ],
   directives: [ ROUTER_DIRECTIVES, RouterActive, Toast2Component ],
   pipes: [],
   styles: [`

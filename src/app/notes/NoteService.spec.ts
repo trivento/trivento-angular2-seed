@@ -111,4 +111,18 @@ describe('NoteService', () => {
     expect(action.payload.title).toEqual(NOTE.title);
     expect(action.payload.id).toEqual(NOTE.id);
   }));
+
+  it('should emit an error when get all notes fails',
+    inject([XHRBackend, NoteService], (mockBackend, noteService) => {
+      mockBackend.connections.subscribe((connection: MockConnection) => {
+        connection.mockError(new Error());
+      });
+
+      noteService.getAll();
+
+      expect(receivedActions.length).toEqual(1);
+      let action = receivedActions[0];
+      expect(action.type).toBe('ERROR');
+    }));
+
 });

@@ -9,6 +9,7 @@ import {RouterActive} from './directives/router-active';
 import {Home} from './home/home';
 import {API_PROVIDERS} from './users/services/api';
 import {NotesComponent} from './notes/NotesComponent';
+import {Toast2Component} from './toast2/Toast2Component';
 
 /*
  * App Component
@@ -17,7 +18,7 @@ import {NotesComponent} from './notes/NotesComponent';
 @Component({
   selector: 'app',
   providers: [ FORM_PROVIDERS, API_PROVIDERS ],
-  directives: [ ROUTER_DIRECTIVES, RouterActive ],
+  directives: [ ROUTER_DIRECTIVES, RouterActive, Toast2Component ],
   pipes: [],
   styles: [`
     nav ul {
@@ -56,6 +57,7 @@ import {NotesComponent} from './notes/NotesComponent';
     </header>
 
     <main style="border:1px solid red">
+      <toast2></toast2>
       <router-outlet></router-outlet>
     </main>
 

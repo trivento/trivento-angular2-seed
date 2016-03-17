@@ -28,6 +28,8 @@ import {App} from './app/app';
 import {provideStore} from '@ngrx/store';
 import {notesReducer, selectedNoteReducer} from './app/notes/notesReducers';
 import {NoteService} from "./app/notes/NoteService";
+import {toast2} from './app/toast2/toast2';
+import {Toast2Service} from './app/toast2/Toast2Service';
 
 /*
  * Bootstrap our Angular app with a top level component `App` and inject
@@ -39,8 +41,9 @@ export function main() {
     ...HTTP_PROVIDERS,
     ...ROUTER_PROVIDERS,
     ngCore.provide(LocationStrategy, { useClass: HashLocationStrategy }),
+    Toast2Service,
     NoteService,
-    provideStore({notesReducer, selectedNoteReducer})
+    provideStore({toast2, notesReducer, selectedNoteReducer})
   ])
   .catch(err => console.error(err));
 }

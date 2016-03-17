@@ -1,0 +1,5 @@
+- wel/niet events omhoog gooien vanuit subcomponenten?
+- waarom notes in noteservice?
+- error handlers in noteservice of globaal
+- toaster
+- authenticatie

@@ -31,7 +31,6 @@ export class NoteService {
   }
 
   updateNote(note: Note) {
-    this.store.dispatch(NoteActions.updateNote(note));
     this.http.put(BASE_URL + note.id, JSON.stringify(note), HEADER)
       .map(res => res.json())
       .subscribe(payload => this.store.dispatch(NoteActions.updateNote(payload)));

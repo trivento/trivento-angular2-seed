@@ -7,6 +7,7 @@ import {NoteActions} from './NoteActions';
 import {Http, Headers} from 'angular2/http';
 import {Toast2Service} from '../toast2/Toast2Service';
 import {Toast2Type} from '../toast2/toast2';
+import {ApiHttp} from '../util/ApiHttp';
 
 const BASE_URL = 'http://localhost:3100/note/';
 const HEADER = { headers: new Headers({ 'Content-Type': 'application/json' }) };
@@ -15,7 +16,7 @@ const HEADER = { headers: new Headers({ 'Content-Type': 'application/json' }) };
 export class NoteService {
   notes: Observable<Array<Note>>;
 
-  constructor(private http: Http, private store: Store<NotesState>,
+  constructor(private http: ApiHttp, private store: Store<NotesState>,
               private toast2Service: Toast2Service) {
     this.notes = store.select('notesReducer');
     this.notes.subscribe(nn => console.log('NoteService got notes', nn));

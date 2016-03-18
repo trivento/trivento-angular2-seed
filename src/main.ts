@@ -4,7 +4,14 @@
 import * as ngCore from 'angular2/core';
 import * as browser from 'angular2/platform/browser';
 import {ROUTER_PROVIDERS, LocationStrategy, HashLocationStrategy} from 'angular2/router';
-import {HTTP_PROVIDERS} from 'angular2/http';
+import {HTTP_PROVIDERS, RequestOptions, XHRConnection} from 'angular2/http';
+import {App} from './app/app';
+import {provideStore} from '@ngrx/store';
+import {notesReducer, selectedNoteReducer} from './app/notes/notesReducers';
+import {NoteService} from "./app/notes/NoteService";
+import {toast2} from './app/toast2/toast2';
+import {Toast2Service} from './app/toast2/Toast2Service';
+import {ApiHttp} from './app/util/ApiHttp';
 
 /*
  * App Environment Providers
@@ -23,13 +30,6 @@ if ('production' === process.env.ENV) {
  * App Component
  * our top level component that holds all of our components
  */
-import {App} from './app/app';
-
-import {provideStore} from '@ngrx/store';
-import {notesReducer, selectedNoteReducer} from './app/notes/notesReducers';
-import {NoteService} from "./app/notes/NoteService";
-import {toast2} from './app/toast2/toast2';
-import {Toast2Service} from './app/toast2/Toast2Service';
 
 /*
  * Bootstrap our Angular app with a top level component `App` and inject
@@ -42,6 +42,7 @@ export function main() {
     ...ROUTER_PROVIDERS,
     ngCore.provide(LocationStrategy, { useClass: HashLocationStrategy }),
     Toast2Service,
+    ApiHttp,
     NoteService,
     provideStore({toast2, notesReducer, selectedNoteReducer})
   ])

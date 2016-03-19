@@ -14,8 +14,12 @@ import {NoteDetail} from './NoteDetail';
   directives: [NotesList, NoteDetail],
   template: `
     <h2>Notes</h2>
-    <notes-list [notes]="notes | async"></notes-list>
-    <note-detail [note]="selectedNote | async"></note-detail>
+    <notes-list [notes]="notes | async"
+                (selected)="selectNote($event)"
+                (deleted)="deleteNote($event)"></notes-list>
+    <note-detail [note]="selectedNote | async"
+                 (cancelled)="cancel($event)"
+                 (saved)="save($event)"></note-detail>
   `
 })
 export class NotesComponent {
@@ -26,6 +30,23 @@ export class NotesComponent {
     this.notes = noteService.notes;
     this.selectedNote = store.select('selectedNoteReducer');
     noteService.getAll();
+  }
+
+  selectNote(note: Note) {
+    this.store.dispatch(NoteActions.selectNote(note));
+  }
+
+  deleteNote(note: Note) {
+    this.noteService.deleteNote(note);
+  }
+
+  cancel() {
+    this.store.dispatch(NoteActions.selectNote(new Note('', '')));
+  }
+
+  save(note: Note) {
+    this.noteService.saveNote(note);
+    this.cancel();
   }
 
 }

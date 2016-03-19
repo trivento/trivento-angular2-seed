@@ -1,12 +1,10 @@
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs/Observable';
-import {Component} from 'angular2/core';
+import {Component, Input, Output, EventEmitter} from 'angular2/core';
 import {NotesState} from './notesReducers';
-import {ChangeDetectionStrategy} from 'angular2/core';
 import {NoteActions} from './NoteActions';
 import {NoteService} from './NoteService';
 import {Note} from './Note';
-import {Input} from 'angular2/core';
 
 @Component({
   selector: 'note-detail',
@@ -27,8 +25,8 @@ import {Input} from 'angular2/core';
             <input [(ngModel)]="selectedNote.text" type="text">
           </div>
           <div>
-            <button type="button" (click)="cancel()">Cancel</button>
-            <button type="submit" (click)="save()">Save</button>
+            <button type="button" (click)="cancelled.emit()">Cancel</button>
+            <button type="submit" (click)="saved.emit(selectedNote)">Save</button>
           </div>
         </form>
       </div>
@@ -48,15 +46,7 @@ export class NoteDetail {
     this.selectedNote = Object.assign({}, value);
   }
 
-  constructor(private noteService: NoteService, private store: Store<NotesState>) {
-  }
+  @Output() cancelled = new EventEmitter();
+  @Output() saved = new EventEmitter();
 
-  cancel() {
-    this.store.dispatch(NoteActions.selectNote(new Note('', '')));
-  }
-
-  save() {
-    this.noteService.saveNote(this.selectedNote);
-    this.cancel();
-  }
 }

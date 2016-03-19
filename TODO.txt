@@ -1,6 +1,6 @@
-- wel/niet events omhoog gooien vanuit subcomponenten?
+X wel/niet events omhoog gooien vanuit subcomponenten?
 - waarom notes in noteservice?
 X error handlers in noteservice
-- globale error handler
+X globale error handler
 X toaster
-- authenticatie
+X authenticatie

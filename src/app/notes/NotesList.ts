@@ -6,15 +6,15 @@ import {ChangeDetectionStrategy} from 'angular2/core';
 import {NoteActions} from './NoteActions';
 import {NoteService} from './NoteService';
 import {Note} from './Note';
-import {Input} from 'angular2/core';
+import {Input, Output, EventEmitter} from 'angular2/core';
 
 @Component({
   selector: 'notes-list',
   template: `
     <ul>
-      <li *ngFor="#note of notes" (click)="selectNote(note)">
+      <li *ngFor="#note of notes" (click)="selected.emit(note)">
         {{note.title}}
-        <button (click)="deleteNote(note)">X</button>
+        <button (click)="deleted.emit(note)">X</button>
       </li>
     </ul>
   `,
@@ -25,15 +25,6 @@ import {Input} from 'angular2/core';
 })
 export class NotesList {
   @Input('notes') notes: Note[];
-
-  constructor(private noteService: NoteService, private store: Store<NotesState>) {
-  }
-
-  selectNote(note: Note) {
-    this.store.dispatch(NoteActions.selectNote(note));
-  }
-
-  deleteNote(note: Note) {
-    this.noteService.deleteNote(note);
-  }
+  @Output() selected = new EventEmitter();
+  @Output() deleted = new EventEmitter();
 }

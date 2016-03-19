@@ -1,5 +1,5 @@
 import {Injectable} from 'angular2/core';
-import {Http, RequestOptionsArgs, Response, Headers} from 'angular2/http';
+import {Http, RequestOptionsArgs, Response, Headers, RequestMethod} from 'angular2/http';
 import {Observable} from 'rxjs/Observable';
 import {Toast2Service} from '../toast2/Toast2Service';
 import {Toast2Type} from '../toast2/toast2';
@@ -9,10 +9,13 @@ export class ApiHttp {
   constructor(private http: Http, private toast2Service: Toast2Service) {
   }
 
-  private intercept(options?: RequestOptionsArgs): RequestOptionsArgs {
+  private intercept(method: RequestMethod, options?: RequestOptionsArgs): RequestOptionsArgs {
     let _options: RequestOptionsArgs = options || {};
     let headers: Headers = _options.headers || new Headers();
     headers.append('X-Some-Header', 'some value');
+    if (method === RequestMethod.Post || method === RequestMethod.Put) {
+      headers.append('Content-Type', 'application/json');
+    }
     return Object.assign({}, _options, {headers: headers});
   }
 
@@ -23,18 +26,22 @@ export class ApiHttp {
   };
 
   get(url:string, options?:RequestOptionsArgs):Observable<Response> {
-    return this.http.get(url, this.intercept(options)).catch(this.errorHandler);
+    return this.http.get(url, this.intercept(RequestMethod.Get, options))
+      .catch(this.errorHandler);
   }
 
   post(url:string, body:string, options?:RequestOptionsArgs):Observable<Response> {
-    return this.http.post(url, body, this.intercept(options)).catch(this.errorHandler);
+    return this.http.post(url, body, this.intercept(RequestMethod.Post, options))
+      .catch(this.errorHandler);
   }
 
   put(url:string, body:string, options?:RequestOptionsArgs):Observable<Response> {
-    return this.http.put(url, body, this.intercept(options)).catch(this.errorHandler);
+    return this.http.put(url, body, this.intercept(RequestMethod.Put, options))
+      .catch(this.errorHandler);
   }
 
   delete (url: string, options?: RequestOptionsArgs): Observable<Response> {
-    return this.http.delete(url, this.intercept(options)).catch(this.errorHandler);
+    return this.http.delete(url, this.intercept(RequestMethod.Delete, options))
+      .catch(this.errorHandler);
   }
 }

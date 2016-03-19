@@ -10,16 +10,12 @@ import {Toast2Type} from '../toast2/toast2';
 import {ApiHttp} from '../util/ApiHttp';
 
 const BASE_URL = 'http://localhost:3100/note/';
-const HEADER = { headers: new Headers({ 'Content-Type': 'application/json' }) };
 
 @Injectable()
 export class NoteService {
-  notes: Observable<Array<Note>>;
 
   constructor(private http: ApiHttp, private store: Store<NotesState>,
               private toast2Service: Toast2Service) {
-    this.notes = store.select('notesReducer');
-    this.notes.subscribe(nn => console.log('NoteService got notes', nn));
   }
 
   getAll() {
@@ -36,14 +32,14 @@ export class NoteService {
   }
 
   updateNote(note: Note) {
-    this.http.put(BASE_URL + note.id, JSON.stringify(note), HEADER)
+    this.http.put(BASE_URL + note.id, JSON.stringify(note))
       .map(res => res.json())
       .subscribe(payload => this.store.dispatch(NoteActions.updateNote(payload)));
   }
 
   createNote(note: Note) {
     let noteWithId: Note = Object.assign({}, note, {id: Math.ceil(Math.random() * 1000000)});
-    this.http.post(BASE_URL, JSON.stringify(noteWithId), HEADER)
+    this.http.post(BASE_URL, JSON.stringify(noteWithId))
       .map(res => res.json())
       .subscribe(payload => this.store.dispatch(NoteActions.createNote(payload)));
   }

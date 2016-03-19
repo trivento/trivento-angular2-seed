@@ -1,5 +1,5 @@
 X wel/niet events omhoog gooien vanuit subcomponenten?
-- waarom notes in noteservice?
+X waarom notes in noteservice?
 X error handlers in noteservice
 X globale error handler
 X toaster

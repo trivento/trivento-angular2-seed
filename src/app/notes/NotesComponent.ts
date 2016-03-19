@@ -27,7 +27,7 @@ export class NotesComponent {
   selectedNote: Observable<Note>;
 
   constructor(private noteService: NoteService, private store: Store<NotesState>) {
-    this.notes = noteService.notes;
+    this.notes = store.select('notesReducer');
     this.selectedNote = store.select('selectedNoteReducer');
     noteService.getAll();
   }

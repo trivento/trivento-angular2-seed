@@ -9,6 +9,7 @@ import {RouterActive} from './directives/router-active';
 import {Home} from './home/home';
 import {NotesComponent} from './notes/NotesComponent';
 import {Toast2Component} from './toast2/Toast2Component';
+import {AuthPrompt} from './auth/AuthPrompt';
 
 /*
  * App Component
@@ -17,7 +18,7 @@ import {Toast2Component} from './toast2/Toast2Component';
 @Component({
   selector: 'app',
   providers: [ FORM_PROVIDERS ],
-  directives: [ ROUTER_DIRECTIVES, RouterActive, Toast2Component ],
+  directives: [ ROUTER_DIRECTIVES, RouterActive, Toast2Component, AuthPrompt ],
   pipes: [],
   styles: [`
     nav ul {
@@ -56,6 +57,7 @@ import {Toast2Component} from './toast2/Toast2Component';
     </header>
 
     <main style="border:1px solid red">
+      <auth-prompt></auth-prompt>
       <toast2></toast2>
       <router-outlet></router-outlet>
     </main>

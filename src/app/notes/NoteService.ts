@@ -6,7 +6,6 @@ import {NotesState} from './notesReducers';
 import {NoteActions} from './NoteActions';
 import {Http, Headers} from 'angular2/http';
 import {Toast2Service} from '../toast2/Toast2Service';
-import {Toast2Type} from '../toast2/toast2';
 import {ApiHttp} from '../util/ApiHttp';
 
 const BASE_URL = 'http://localhost:3100/note/';
@@ -24,7 +23,7 @@ export class NoteService {
       .map(payload => NoteActions.getAll(payload))
       .subscribe(
         action => this.store.dispatch(action),
-        error => this.toast2Service.display('Error ' + error.status, Toast2Type.ERROR));
+        error => this.toast2Service.error('Error ' + error.status));
   }
 
   saveNote(note: Note) {

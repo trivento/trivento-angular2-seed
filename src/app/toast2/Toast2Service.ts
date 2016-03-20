@@ -10,10 +10,15 @@ export class Toast2Service {
   }
 
   display(message: string, type: string, timeout: number = 5000) {
+    //TODO uuid oid
     let id = Math.ceil(Math.random() * 1000000000);
     this.store.dispatch({type: type, payload: {id: id, message: message}});
     setTimeout(() => {
       this.store.dispatch({type: Toast2Type.REMOVE, payload: {id: id}});
     }, timeout);
+  }
+
+  error(message: string, timeout?: number) {
+    this.display(message, Toast2Type.ERROR, timeout);
   }
 }

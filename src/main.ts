@@ -12,6 +12,8 @@ import {NoteService} from "./app/notes/NoteService";
 import {toast2} from './app/toast2/toast2';
 import {Toast2Service} from './app/toast2/Toast2Service';
 import {ApiHttp} from './app/util/ApiHttp';
+import {auth} from './app/auth/reducers/auth';
+import {AuthService} from './app/auth/AuthService';
 
 /*
  * App Environment Providers
@@ -43,8 +45,9 @@ export function main() {
     ngCore.provide(LocationStrategy, { useClass: HashLocationStrategy }),
     Toast2Service,
     ApiHttp,
+    AuthService,
     NoteService,
-    provideStore({toast2, notesReducer, selectedNoteReducer})
+    provideStore({toast2, auth, notesReducer, selectedNoteReducer})
   ])
   .catch(err => console.error(err));
 }

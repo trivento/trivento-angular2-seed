@@ -15,11 +15,11 @@ class Request {
 }
 
 class RequestBuffer {
-  requests: {url: string, observer: Subscriber<Response>}[] = [];
+  requests: {origRequest: Request, observer: Subscriber<Response>}[] = [];
 
-  append(url: string, observer: Subscriber<Response>) {
+  append(origRequest: Request, observer: Subscriber<Response>) {
     this.requests.push({
-      url: url, observer: observer
+      origRequest: origRequest, observer: observer
     });
   }
 
@@ -36,7 +36,7 @@ class RequestBuffer {
 @Injectable()
 export class ApiHttp {
   authState: AuthState;
-  requestBuffer = new RequestBuffer();
+  requestBuffer: {origRequest: Request, observer: Subscriber<Response>}[] = [];
 
   constructor(private http: Http, private toast2Service: Toast2Service,
               private authService: AuthService, private store: Store<AuthState>) {
@@ -46,7 +46,7 @@ export class ApiHttp {
     });
     authObservable.delay(1).subscribe(() => {
       if (this.authState.authenticated) {
-        this.requestBuffer.retry();
+        this.retryRequestsInBuffer();
       }
     });
   }
@@ -64,46 +64,77 @@ export class ApiHttp {
     return Object.assign({}, _options, {headers: headers});
   }
 
-  private errorHandler = (error: any, source: Observable<Response>,
-                          caught: Observable<any>): Observable<Response> => {
-    return Observable.create((observer: Subscriber<Response>) => {
-      //TODO change to 401
-      if (error.status === 404) {
-        //TODO include original request?
-        this.requestBuffer.append('http://localhost:3100/note', observer);
-        this.authService.promptForAuth();
-      } else {
-        this.toast2Service.display('Error ' + error.status, Toast2Type.ERROR);
-      }
-    });
+  private errorHandler = (request: Request) => {
+    return (error: any, source: Observable<Response>,
+            caught: Observable<any>): Observable<Response> => {
+      return Observable.create((observer: Subscriber<Response>) => {
+        //TODO change to 401
+        if (error.status === 404) {
+          this.appendToRequestBuffer(request, observer);
+          this.authService.promptForAuth();
+        } else {
+          this.toast2Service.display('Error ' + error.status, Toast2Type.ERROR);
+        }
+      });
+    };
   };
 
-  //doRequest(request: Request): Observable<Response> {
-  //  switch(request.method) {
-  //    case RequestMethod.Get:
-  //    case RequestMethod.Post:
-  //    case RequestMethod.Put:
-  //    case RequestMethod.Delete:
-  //  }
-  //}
+  doRequest(request: Request): Observable<Response> {
+    let response;
+    switch(request.method) {
+      case RequestMethod.Get:
+        response = this.http.get(request.url,
+          this.intercept(request.method, request.options));
+        break;
+      case RequestMethod.Post:
+        response = this.http.post(request.url, request.body,
+          this.intercept(request.method, request.options));
+        break;
+      case RequestMethod.Put:
+        response = this.http.put(request.url, request.body,
+          this.intercept(request.method, request.options));
+        break;
+      case RequestMethod.Delete:
+        response = this.http.delete(request.url,
+          this.intercept(request.method, request.options));
+        break;
+    }
+    return response.catch(this.errorHandler(request));
+  }
 
   get(url:string, options?:RequestOptionsArgs):Observable<Response> {
-    return this.http.get(url, this.intercept(RequestMethod.Get, options))
-      .catch(this.errorHandler);
+    let request = new Request(RequestMethod.Get, url, undefined, options);
+    return this.doRequest(request);
   }
 
   post(url:string, body:string, options?:RequestOptionsArgs):Observable<Response> {
-    return this.http.post(url, body, this.intercept(RequestMethod.Post, options))
-      .catch(this.errorHandler);
+    let request = new Request(RequestMethod.Post, url, body, options);
+    return this.doRequest(request);
   }
 
   put(url:string, body:string, options?:RequestOptionsArgs):Observable<Response> {
-    return this.http.put(url, body, this.intercept(RequestMethod.Put, options))
-      .catch(this.errorHandler);
+    let request = new Request(RequestMethod.Put, url, body, options);
+    return this.doRequest(request);
   }
 
   delete (url: string, options?: RequestOptionsArgs): Observable<Response> {
-    return this.http.delete(url, this.intercept(RequestMethod.Delete, options))
-      .catch(this.errorHandler);
+    let request = new Request(RequestMethod.Delete, url, undefined, options);
+    return this.doRequest(request);
   }
+
+  appendToRequestBuffer(origRequest: Request, observer: Subscriber<Response>) {
+    this.requestBuffer.push({
+      origRequest: origRequest, observer: observer
+    });
+  }
+
+  retryRequestsInBuffer() {
+    this.requestBuffer.forEach(request => {
+      this.doRequest(request.origRequest).subscribe((response: Response) => {
+        request.observer.next(response);
+        request.observer.complete();
+      });
+    });
+  }
+
 }

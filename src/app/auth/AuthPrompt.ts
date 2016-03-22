@@ -18,7 +18,6 @@ export class AuthPrompt {
 
   constructor(private store: Store<AuthState>, private authService: AuthService) {
     this.authState = store.select('auth');
-    this.authState.subscribe(as => console.log('as=' + JSON.stringify(as)));
   }
 
   logIn(authData: {username: string, password: string}) {

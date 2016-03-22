@@ -13,7 +13,6 @@ export class Toast2 {
 }
 
 export const toast2: Reducer<any> = (state: any = [], action: Action) => {
-  console.log('toast2 action', action);
   switch(action.type) {
     case Toast2Type.ERROR:
       return [...state, new Toast2(action.payload.message, Toast2Type.ERROR, action.payload.id)];

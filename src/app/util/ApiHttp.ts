@@ -9,24 +9,46 @@ import {AuthState} from '../auth/reducers/auth';
 import {ResponseOptions} from 'angular2/http';
 import {Subscriber} from 'rxjs/Subscriber';
 
-@Injectable
-class HttpBuffer {
+class Request {
+  constructor(public method: RequestMethod, public url: string, public body?: string,
+              public options?: RequestOptionsArgs) {}
+}
+
+class RequestBuffer {
+  requests: {url: string, observer: Subscriber<Response>}[] = [];
+
   append(url: string, observer: Subscriber<Response>) {
-    observer.next(new Response(new ResponseOptions({
-      body: [{id:1, title:'n1', text:'nnn'}]
-    })));
-    observer.complete();
+    this.requests.push({
+      url: url, observer: observer
+    });
+  }
+
+  retry() {
+    this.requests.forEach(request => {
+      request.observer.next(new Response(new ResponseOptions({
+        body: [{id:1, title:'n1', text:'nnn'}]
+      })));
+      request.observer.complete();
+    });
   }
 }
 
 @Injectable()
 export class ApiHttp {
   authState: AuthState;
+  requestBuffer = new RequestBuffer();
 
   constructor(private http: Http, private toast2Service: Toast2Service,
-              private authService: AuthService, private store: Store<AuthState>,
-              private httpBuffer: HttpBuffer) {
-    store.select('auth').subscribe((authState: AuthState) => this.authState = authState);
+              private authService: AuthService, private store: Store<AuthState>) {
+    let authObservable = store.select('auth');
+    authObservable.subscribe((authState: AuthState) => {
+      this.authState = authState;
+    });
+    authObservable.delay(1).subscribe(() => {
+      if (this.authState.authenticated) {
+        this.requestBuffer.retry();
+      }
+    });
   }
 
   private intercept(method: RequestMethod, options?: RequestOptionsArgs): RequestOptionsArgs {
@@ -48,13 +70,22 @@ export class ApiHttp {
       //TODO change to 401
       if (error.status === 404) {
         //TODO include original request?
-        this.httpBuffer.append('http://localhost:3100/note', observer);
+        this.requestBuffer.append('http://localhost:3100/note', observer);
         this.authService.promptForAuth();
       } else {
         this.toast2Service.display('Error ' + error.status, Toast2Type.ERROR);
       }
     });
   };
+
+  //doRequest(request: Request): Observable<Response> {
+  //  switch(request.method) {
+  //    case RequestMethod.Get:
+  //    case RequestMethod.Post:
+  //    case RequestMethod.Put:
+  //    case RequestMethod.Delete:
+  //  }
+  //}
 
   get(url:string, options?:RequestOptionsArgs):Observable<Response> {
     return this.http.get(url, this.intercept(RequestMethod.Get, options))

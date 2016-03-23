@@ -9,35 +9,31 @@ import {AuthState} from '../auth/reducers/auth';
 import {ResponseOptions} from 'angular2/http';
 import {Subscriber} from 'rxjs/Subscriber';
 
+/**
+ * Stores an http request.
+ */
 class Request {
   constructor(public method: RequestMethod, public url: string, public body?: string,
               public options?: RequestOptionsArgs) {}
 }
 
-class RequestBuffer {
-  requests: {origRequest: Request, observer: Subscriber<Response>}[] = [];
-
-  append(origRequest: Request, observer: Subscriber<Response>) {
-    this.requests.push({
-      origRequest: origRequest, observer: observer
-    });
-  }
-
-  retry() {
-    this.requests.forEach(request => {
-      request.observer.next(new Response(new ResponseOptions({
-        body: [{id:1, title:'n1', text:'nnn'}]
-      })));
-      request.observer.complete();
-    });
-  }
-}
-
+/**
+ * Wrapper for http requests that allows for intercepting
+ * requests, responses and error responses. Upon a 401 error
+ * response an ngrx event is dispatched prompting the user
+ * to log in. After having been successfully authenticated,
+ * the original requests will automatically be retried.
+ */
 @Injectable()
 export class ApiHttp {
   authState: AuthState;
   requestBuffer: {origRequest: Request, observer: Subscriber<Response>}[] = [];
 
+  /**
+   * Subscribe to authentication events. On successful
+   * authentication, any buffered requests will be
+   * retried.
+   */
   constructor(private http: Http, private toast2Service: Toast2Service,
               private authService: AuthService, private store: Store<AuthState>) {
     let authObservable = store.select('auth');
@@ -51,10 +47,14 @@ export class ApiHttp {
     });
   }
 
+  /**
+   * Intercepts any http request to add an authorization
+   * header (if user is logged in) and any other necessary
+   * headers.
+   */
   private intercept(method: RequestMethod, options?: RequestOptionsArgs): RequestOptionsArgs {
     let _options: RequestOptionsArgs = options || {};
     let headers: Headers = _options.headers || new Headers();
-    headers.append('X-Some-Header', 'some value');
     if (this.authState && this.authState.authenticated) {
       headers.append('Authorization', 'Bearer ' + this.authState.userData.token);
     }
@@ -64,21 +64,30 @@ export class ApiHttp {
     return Object.assign({}, _options, {headers: headers});
   }
 
+  /**
+   * Handles an http error response. On a 401 response, an ngrx
+   * event will be dispatched asking for authentication and the
+   * original request is buffered so it can be retried later on.
+   */
   private errorHandler = (request: Request) => {
     return (error: any, source: Observable<Response>,
             caught: Observable<any>): Observable<Response> => {
       return Observable.create((observer: Subscriber<Response>) => {
-        //TODO change to 401
-        if (error.status === 404) {
+        if (error.status === 401) {
           this.appendToRequestBuffer(request, observer);
           this.authService.promptForAuth();
         } else {
           this.toast2Service.display('Error ' + error.status, Toast2Type.ERROR);
+          observer.complete();
         }
       });
     };
   };
 
+  /**
+   * Sends the specified http request to the http service,
+   * intercepting its response.
+   */
   doRequest(request: Request): Observable<Response> {
     let response;
     switch(request.method) {
@@ -102,32 +111,51 @@ export class ApiHttp {
     return response.catch(this.errorHandler(request));
   }
 
+  /**
+   * Sends a GET request, intercepting its response.
+   */
   get(url:string, options?:RequestOptionsArgs):Observable<Response> {
     let request = new Request(RequestMethod.Get, url, undefined, options);
     return this.doRequest(request);
   }
 
+  /**
+   * Sends a POST request, intercepting its response.
+   */
   post(url:string, body:string, options?:RequestOptionsArgs):Observable<Response> {
     let request = new Request(RequestMethod.Post, url, body, options);
     return this.doRequest(request);
   }
 
+  /**
+   * Sends a PUT request, intercepting its response.
+   */
   put(url:string, body:string, options?:RequestOptionsArgs):Observable<Response> {
     let request = new Request(RequestMethod.Put, url, body, options);
     return this.doRequest(request);
   }
 
+  /**
+   * Sends a DELETE request, intercepting its response.
+   */
   delete (url: string, options?: RequestOptionsArgs): Observable<Response> {
     let request = new Request(RequestMethod.Delete, url, undefined, options);
     return this.doRequest(request);
   }
 
+  /**
+   * Appends an http request to the request buffer, from where
+   * it can later be fetched to retry it.
+   */
   appendToRequestBuffer(origRequest: Request, observer: Subscriber<Response>) {
     this.requestBuffer.push({
       origRequest: origRequest, observer: observer
     });
   }
 
+  /**
+   * Retries all http requests present in the request buffer.
+   */
   retryRequestsInBuffer() {
     this.requestBuffer.forEach(request => {
       this.doRequest(request.origRequest).subscribe((response: Response) => {

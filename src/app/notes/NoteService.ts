@@ -21,9 +21,7 @@ export class NoteService {
     this.http.get(BASE_URL)
       .map(res => res.json())
       .map(payload => NoteActions.getAll(payload))
-      .subscribe(
-        action => this.store.dispatch(action),
-        error => this.toast2Service.error('Error ' + error.status));
+      .subscribe(action => this.store.dispatch(action));
   }
 
   saveNote(note: Note) {

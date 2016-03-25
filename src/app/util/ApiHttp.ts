@@ -8,6 +8,7 @@ import {AuthService} from '../auth/AuthService';
 import {AuthState} from '../auth/reducers/auth';
 import {ResponseOptions} from 'angular2/http';
 import {Subscriber} from 'rxjs/Subscriber';
+import {SpinnerService} from './Spinner';
 
 /**
  * Stores an http request.
@@ -35,6 +36,7 @@ export class ApiHttp {
    * retried.
    */
   constructor(private http: Http, private toast2Service: Toast2Service,
+              private spinner: SpinnerService,
               private authService: AuthService, private store: Store<AuthState>) {
     let authObservable = store.select('auth');
     authObservable.subscribe((authState: AuthState) => {
@@ -90,6 +92,7 @@ export class ApiHttp {
    */
   doRequest(request: Request): Observable<Response> {
     let response;
+    this.spinner.start();
     switch(request.method) {
       case RequestMethod.Get:
         response = this.http.get(request.url,
@@ -108,7 +111,11 @@ export class ApiHttp {
           this.intercept(request.method, request.options));
         break;
     }
-    return response.catch(this.errorHandler(request));
+    return response
+      .catch(this.errorHandler(request))
+      .finally(() => {
+        this.spinner.stop();
+      });
   }
 
   /**
@@ -138,7 +145,7 @@ export class ApiHttp {
   /**
    * Sends a DELETE request, intercepting its response.
    */
-  delete (url: string, options?: RequestOptionsArgs): Observable<Response> {
+  delete(url: string, options?: RequestOptionsArgs): Observable<Response> {
     let request = new Request(RequestMethod.Delete, url, undefined, options);
     return this.doRequest(request);
   }

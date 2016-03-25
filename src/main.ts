@@ -14,6 +14,8 @@ import {Toast2Service} from './app/toast2/Toast2Service';
 import {ApiHttp} from './app/util/ApiHttp';
 import {auth} from './app/auth/reducers/auth';
 import {AuthService} from './app/auth/AuthService';
+import {spinner} from './app/util/Spinner.ts';
+import {SpinnerService} from './app/util/Spinner';
 
 /*
  * App Environment Providers
@@ -44,10 +46,11 @@ export function main() {
     ...ROUTER_PROVIDERS,
     ngCore.provide(LocationStrategy, { useClass: HashLocationStrategy }),
     Toast2Service,
+    SpinnerService,
     ApiHttp,
     AuthService,
     NoteService,
-    provideStore({toast2, auth, notesReducer, selectedNoteReducer})
+    provideStore({toast2, spinner, auth, notesReducer, selectedNoteReducer})
   ])
   .catch(err => console.error(err));
 }

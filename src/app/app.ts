@@ -10,6 +10,7 @@ import {Home} from './home/home';
 import {NotesComponent} from './notes/NotesComponent';
 import {Toast2Component} from './toast2/Toast2Component';
 import {AuthPrompt} from './auth/AuthPrompt';
+import {Spinner} from './util/Spinner.ts';
 
 /*
  * App Component
@@ -18,7 +19,7 @@ import {AuthPrompt} from './auth/AuthPrompt';
 @Component({
   selector: 'app',
   providers: [ FORM_PROVIDERS ],
-  directives: [ ROUTER_DIRECTIVES, RouterActive, Toast2Component, AuthPrompt ],
+  directives: [ ROUTER_DIRECTIVES, RouterActive, Toast2Component, AuthPrompt, Spinner ],
   pipes: [],
   styles: [`
     nav ul {
@@ -59,6 +60,7 @@ import {AuthPrompt} from './auth/AuthPrompt';
     <main style="border:1px solid red">
       <auth-prompt></auth-prompt>
       <toast2></toast2>
+      <spinner></spinner>
       <router-outlet></router-outlet>
     </main>
 

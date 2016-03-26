@@ -1,7 +1,7 @@
 import {Reducer, Action} from '@ngrx/store';
 import {Note} from './Note';
 import * as _ from 'lodash';
-import {NoteActionType} from './NoteActions';
+import {NoteAction} from './NoteAction';
 
 export interface NotesState {
   notes: Note[];
@@ -10,15 +10,15 @@ export interface NotesState {
 
 export const notesReducer: Reducer<any> = (state: any = [], action: Action) => {
   switch (action.type) {
-    case NoteActionType.GET_ALL:
+    case NoteAction.GET_ALL:
       return action.payload;
-    case NoteActionType.CREATE:
+    case NoteAction.CREATE:
       return [...state, action.payload];
-    case NoteActionType.UPDATE:
+    case NoteAction.UPDATE:
       return state.map(note => {
         return note.id === action.payload.id ? _.cloneDeep(action.payload) : note;
       });
-    case NoteActionType.DELETE:
+    case NoteAction.DELETE:
       return state.filter(note => {
         return note.id !== action.payload.id;
       });
@@ -29,7 +29,7 @@ export const notesReducer: Reducer<any> = (state: any = [], action: Action) => {
 
 export const selectedNoteReducer: Reducer<Note> = (state: Note = null, action: Action) => {
   switch (action.type) {
-    case NoteActionType.SELECT:
+    case NoteAction.SELECT:
       return action.payload;
     default:
       return state;

@@ -2,7 +2,6 @@ import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs/Observable';
 import {Component, Input, Output, EventEmitter} from 'angular2/core';
 import {NotesState} from './notesReducers';
-import {NoteActions} from './NoteActions';
 import {NoteService} from './NoteService';
 import {Note} from './Note';
 

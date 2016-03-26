@@ -3,7 +3,6 @@ import {Observable} from 'rxjs/Observable';
 import {Component} from 'angular2/core';
 import {NotesState} from './notesReducers';
 import {ChangeDetectionStrategy} from 'angular2/core';
-import {NoteActions} from './NoteActions';
 import {NoteService} from './NoteService';
 import {Note} from './Note';
 import {Input, Output, EventEmitter} from 'angular2/core';

@@ -3,6 +3,9 @@ X waarom notes in noteservice?
 X error handlers in noteservice
 X globale error handler
 X toaster
-- authenticatie
+X authenticatie
 X Toast2 -> util
 - model-based form
+- naming reducers, actions, services
+- blog apihttp
+- 2684

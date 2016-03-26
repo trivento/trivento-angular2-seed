@@ -3,7 +3,7 @@ import {Observable} from 'rxjs/Observable';
 import {Note} from './Note';
 import {Store} from '@ngrx/store';
 import {NotesState} from './notesReducers';
-import {NoteActions} from './NoteActions';
+import {NoteAction} from './NoteAction';
 import {Http, Headers} from 'angular2/http';
 import {Toast2Service} from '../toast2/Toast2Service';
 import {ApiHttp} from '../util/ApiHttp';
@@ -20,7 +20,7 @@ export class NoteService {
   getAll() {
     this.http.get(BASE_URL)
       .map(res => res.json())
-      .map(payload => NoteActions.getAll(payload))
+      .map(payload => NoteAction.getAll(payload))
       .subscribe(action => this.store.dispatch(action));
   }
 
@@ -31,18 +31,18 @@ export class NoteService {
   updateNote(note: Note) {
     this.http.put(BASE_URL + note.id, JSON.stringify(note))
       .map(res => res.json())
-      .subscribe(payload => this.store.dispatch(NoteActions.updateNote(payload)));
+      .subscribe(payload => this.store.dispatch(NoteAction.updateNote(payload)));
   }
 
   createNote(note: Note) {
     let noteWithId: Note = Object.assign({}, note, {id: Math.ceil(Math.random() * 1000000)});
     this.http.post(BASE_URL, JSON.stringify(noteWithId))
       .map(res => res.json())
-      .subscribe(payload => this.store.dispatch(NoteActions.createNote(payload)));
+      .subscribe(payload => this.store.dispatch(NoteAction.createNote(payload)));
   }
 
   deleteNote(note: Note) {
     this.http.delete(BASE_URL + note.id)
-      .subscribe(() => this.store.dispatch(NoteActions.deleteNote(note)));
+      .subscribe(() => this.store.dispatch(NoteAction.deleteNote(note)));
   }
 }

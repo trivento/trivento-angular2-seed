@@ -3,7 +3,7 @@ import {Observable} from 'rxjs/Observable';
 import {Component} from 'angular2/core';
 import {NotesState} from './notesReducers';
 import {ChangeDetectionStrategy} from 'angular2/core';
-import {NoteActions} from './NoteActions';
+import {NoteAction} from './NoteAction';
 import {NoteService} from './NoteService';
 import {Note} from './Note';
 import {NotesList} from './NotesList';
@@ -33,7 +33,7 @@ export class NotesComponent {
   }
 
   selectNote(note: Note) {
-    this.store.dispatch(NoteActions.selectNote(note));
+    this.store.dispatch(NoteAction.selectNote(note));
   }
 
   deleteNote(note: Note) {
@@ -41,7 +41,7 @@ export class NotesComponent {
   }
 
   cancel() {
-    this.store.dispatch(NoteActions.selectNote(new Note('', '')));
+    this.store.dispatch(NoteAction.selectNote(new Note('', '')));
   }
 
   save(note: Note) {

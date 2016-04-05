@@ -13,9 +13,11 @@ import {toast2} from './app/toast2/toast2';
 import {Toast2Service} from './app/toast2/Toast2Service';
 import {ApiHttp} from './app/util/ApiHttp';
 import {auth} from './app/auth/reducers/auth';
-import {AuthService} from './app/auth/AuthService';
-import {spinner} from './app/util/Spinner.ts';
 import {SpinnerService} from './app/util/Spinner';
+import {spinner} from './app/util/Spinner.ts';
+import {AuthService} from './app/auth/AuthService';
+
+var css = require('./assets/css/test.css');
 
 /*
  * App Environment Providers

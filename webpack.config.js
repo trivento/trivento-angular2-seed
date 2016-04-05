@@ -58,7 +58,7 @@ module.exports = {
       { test: /\.json$/,  loader: 'json-loader', exclude: [ helpers.root('node_modules') ] },
 
       // Support for CSS as raw text
-      { test: /\.css$/,   loader: 'raw-loader', exclude: [ helpers.root('node_modules') ] },
+      { test: /\.css$/,   loader: 'style-loader!css-loader', exclude: [ helpers.root('node_modules') ] },
 
       // support for .html as raw text
       { test: /\.html$/,  loader: 'raw-loader', exclude: [ helpers.root('src/index.html'), helpers.root('node_modules') ] }

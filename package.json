@@ -90,7 +90,7 @@
     "remap-istanbul": "^0.5.1",
     "rimraf": "^2.5.2",
     "source-map-loader": "^0.1.5",
-    "style-loader": "^0.13.0",
+    "style-loader": "^0.13.1",
     "ts-helper": "0.0.1",
     "ts-node": "^0.5.5",
     "tslint": "^3.5.0",

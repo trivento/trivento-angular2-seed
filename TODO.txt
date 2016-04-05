@@ -9,3 +9,8 @@ X model-based form
 - naming reducers, actions, services
 - blog apihttp
 - 2684
+
+http://julienrenaux.fr/2015/03/30/introduction-to-webpack-with-practical-examples/
+https://webpack.github.io/docs/stylesheets.html
+https://github.com/webpack/css-loader
+

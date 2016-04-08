@@ -17,8 +17,6 @@ import {SpinnerService} from './app/util/Spinner';
 import {spinner} from './app/util/Spinner.ts';
 import {AuthService} from './app/auth/AuthService';
 
-var css = require('./assets/css/test.css');
-
 /*
  * App Environment Providers
  * providers that only live in certain environment

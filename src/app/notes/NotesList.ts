@@ -17,7 +17,7 @@ import {Input, Output, EventEmitter} from 'angular2/core';
       </li>
     </ul>
   `,
-  styles: [require('../main.scss')]
+  styles: [require('./notes.scss')]
 })
 export class NotesList {
   @Input('notes') notes: Note[];

@@ -4,6 +4,7 @@
 import {Component} from 'angular2/core';
 import {RouteConfig, Router, ROUTER_DIRECTIVES} from 'angular2/router';
 import {FORM_PROVIDERS} from 'angular2/common';
+import {ViewEncapsulation} from 'angular2/core';
 
 import {RouterActive} from './directives/router-active';
 import {Home} from './home/home';
@@ -21,21 +22,8 @@ import {Spinner} from './util/Spinner.ts';
   providers: [ FORM_PROVIDERS ],
   directives: [ ROUTER_DIRECTIVES, RouterActive, Toast2Component, AuthPrompt, Spinner ],
   pipes: [],
-  styles: [`
-    nav ul {
-      display: inline;
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
-      width: 60px;
-    }
-    nav li {
-      display: inline;
-    }
-    nav li.active {
-      background-color: lightgray;
-    }
-  `],
+  styles: [require('./app.scss')],
+  encapsulation: ViewEncapsulation.None,
   template: `
     <header>
       <nav>

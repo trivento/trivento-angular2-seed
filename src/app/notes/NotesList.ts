@@ -17,10 +17,7 @@ import {Input, Output, EventEmitter} from 'angular2/core';
       </li>
     </ul>
   `,
-  styles: [`
-    li { cursor: pointer; }
-    li:hover { background-color: #ccc; }
-  `]
+  styles: [require('../main.scss')]
 })
 export class NotesList {
   @Input('notes') notes: Note[];

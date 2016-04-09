@@ -21,7 +21,7 @@ import {Spinner} from './util/Spinner.ts';
   selector: 'app',
   pipes: [],
   providers: [ FORM_PROVIDERS ],
-  directives: [ RouterActive ],
+  directives: [ RouterActive, Toast2Component, AuthPrompt, Spinner ],
   encapsulation: ViewEncapsulation.None,
   styles: [`
     body {

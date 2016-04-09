@@ -10,7 +10,8 @@ import {Toast2} from './toast2';
         {{toast.message}}
       </div>
     </div>
-  `
+  `,
+  styles: [require('./toast2.scss')]
 })
 export class Toast2Component {
   toasts: Toast2[];

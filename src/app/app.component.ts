@@ -23,24 +23,7 @@ import {Spinner} from './util/Spinner.ts';
   providers: [ FORM_PROVIDERS ],
   directives: [ RouterActive, Toast2Component, AuthPrompt, Spinner ],
   encapsulation: ViewEncapsulation.None,
-  styles: [`
-    body {
-      margin: 0;
-    }
-    md-toolbar ul {
-      display: inline;
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
-      width: 60px;
-    }
-    md-toolbar li {
-      display: inline;
-    }
-    md-toolbar li.active {
-      background-color: lightgray;
-    }
-  `],
+  styles: [require('./app.scss')],
   template: `
     <md-toolbar color="primary">
       <span>{{ name }}</span>
@@ -53,6 +36,7 @@ import {Spinner} from './util/Spinner.ts';
           <li router-active>
             <a [routerLink]=" ['Home'] ">Home</a>
           </li>
+          |
           <li router-active>
             <a [routerLink]=" ['Notes'] ">Notes</a>
           </li>
@@ -64,7 +48,7 @@ import {Spinner} from './util/Spinner.ts';
       </nav>
     </md-toolbar>
 
-    <main style="border:1px solid red">
+    <main>
       <auth-prompt></auth-prompt>
       <toast2></toast2>
       <spinner></spinner>

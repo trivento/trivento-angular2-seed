@@ -12,14 +12,15 @@ import {Note} from './Note';
   template: `
     <div>
       <div>
-        <h3 *ngIf="selectedNote.id">Editing {{originalTitle}}</h3>
-        <h3 *ngIf="!selectedNote.id">Create New Note</h3>
+        <h3 md-subheader *ngIf="selectedNote.id">Editing {{originalTitle}}</h3>
+        <h3 md-subheader *ngIf="!selectedNote.id">Create New Note</h3>
       </div>
       <div>
         <form novalidate [ngFormModel]="noteForm">
           <div>
-            <label>Note Title</label>
-            <input type="text" [(ngModel)]="selectedNote.title" ngControl="title">
+            <md-input type="text" [(ngModel)]="selectedNote.title" ngControl="title"
+                      placeholder="Note Title">
+            </md-input>
           </div>
           <div *ngIf="!titleField.valid && titleField.touched" class="validation-errors">
             <div *ngIf="titleField.hasError('required')">Please enter a title</div>
@@ -27,12 +28,13 @@ import {Note} from './Note';
             <div *ngIf="titleField.hasError('noteTitle')">Title must start with 'Note'</div>
           </div>
           <div>
-            <label>Note Text</label>
-            <input type="text" [(ngModel)]="selectedNote.text" ngControl="text">
+            <md-input type="text" [(ngModel)]="selectedNote.text" ngControl="text"
+                      placeholder="Note Text">
+            </md-input>
           </div>
           <div>
-            <button type="button" (click)="cancelled.emit()">Cancel</button>
-            <button type="submit" (click)="saved.emit(selectedNote)">Save</button>
+            <button md-button type="button" (click)="cancelled.emit()">Cancel</button>
+            <button md-raised-button color="primary" type="submit" (click)="saved.emit(selectedNote)">Save</button>
           </div>
         </form>
       </div>

@@ -1,22 +1,27 @@
 body {
-  background-color: yellowgreen;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  padding: 20px;
+
+  // Helps fonts on OSX looks more consistent with other systems
+  // Isn't currently in button styles due to performance concerns
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  margin: 0;
 }
 
-header {
-  background-color: rebeccapurple;
-  color: white;
-}
-
-nav ul {
+md-toolbar ul {
   display: inline;
   list-style-type: none;
   margin: 0;
   padding: 0;
   width: 60px;
 }
-nav li {
+md-toolbar li {
   display: inline;
 }
-nav li.active {
+md-toolbar li.active {
   background-color: lightgray;
 }

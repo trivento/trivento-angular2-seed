@@ -1,13 +1,13 @@
 /*
  * Angular 2 decorators and services
  */
-import {Component} from 'angular2/core';
-import {RouteConfig, Router, ROUTER_DIRECTIVES} from 'angular2/router';
+import {Component, ViewEncapsulation} from 'angular2/core';
+import {RouteConfig, Router} from 'angular2/router';
 import {FORM_PROVIDERS} from 'angular2/common';
-import {ViewEncapsulation} from 'angular2/core';
 
-import {RouterActive} from './directives/router-active';
-import {Home} from './home/home';
+import {Home} from './home';
+import {AppState} from './app.service';
+import {RouterActive} from './router-active';
 import {NotesComponent} from './notes/NotesComponent';
 import {Toast2Component} from './toast2/Toast2Component';
 import {AuthPrompt} from './auth/AuthPrompt';
@@ -19,31 +19,50 @@ import {Spinner} from './util/Spinner.ts';
  */
 @Component({
   selector: 'app',
-  providers: [ FORM_PROVIDERS ],
-  directives: [ ROUTER_DIRECTIVES, RouterActive, Toast2Component, AuthPrompt, Spinner ],
   pipes: [],
-  styles: [require('./app.scss')],
+  providers: [ FORM_PROVIDERS ],
+  directives: [ RouterActive ],
   encapsulation: ViewEncapsulation.None,
+  styles: [`
+    body {
+      margin: 0;
+    }
+    md-toolbar ul {
+      display: inline;
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      width: 60px;
+    }
+    md-toolbar li {
+      display: inline;
+    }
+    md-toolbar li.active {
+      background-color: lightgray;
+    }
+  `],
   template: `
-    <header>
+    <md-toolbar color="primary">
+      <span>{{ name }}</span>
       <nav>
-        <h1>Hello {{ name }}</h1>
         <ul>
-          <li>
+          <li router-active>
             <a [routerLink]=" ['Index'] ">Index</a>
           </li>
-          <li>
+          |
+          <li router-active>
             <a [routerLink]=" ['Home'] ">Home</a>
           </li>
-          <li>
+          <li router-active>
             <a [routerLink]=" ['Notes'] ">Notes</a>
           </li>
-          <li>
+          |
+          <li router-active>
             <a [routerLink]=" ['About'] ">About</a>
           </li>
         </ul>
       </nav>
-    </header>
+    </md-toolbar>
 
     <main style="border:1px solid red">
       <auth-prompt></auth-prompt>
@@ -51,6 +70,8 @@ import {Spinner} from './util/Spinner.ts';
       <spinner></spinner>
       <router-outlet></router-outlet>
     </main>
+
+    <pre>this.appState.state = {{ appState.state | json }}</pre>
 
     <footer>
       WebPack Angular 2 Starter by <a [href]="url">@AngularClass</a>
@@ -61,20 +82,23 @@ import {Spinner} from './util/Spinner.ts';
   `
 })
 @RouteConfig([
-  { path: '/', component: Home, name: 'Index' },
-  { path: '/home', component: Home, name: 'Home' },
+  { path: '/',      name: 'Index', component: Home, useAsDefault: true },
+  { path: '/home',  name: 'Home',  component: Home },
   // Async load a component using Webpack's require with es6-promise-loader and webpack `require`
-  { path: '/about', loader: () => require('es6-promise!./about/about')('About'), name: 'About' },
-  { path: '/notes', component: NotesComponent, name: 'Notes'},
-  { path: '/**', redirectTo: ['Index'] }
+  { path: '/about', name: 'About', loader: () => require('es6-promise!./about')('About') },
+  { path: '/notes', component: NotesComponent, name: 'Notes'}
 ])
 export class App {
   angularclassLogo = 'assets/img/angularclass-avatar.png';
   name = 'Angular 2 Webpack Starter';
   url = 'https://twitter.com/AngularClass';
-  constructor() {
 
+  constructor(public appState: AppState) {}
+
+  ngOnInit() {
+    console.log('Initial App State', this.appState.state);
   }
+
 }
 
 /*

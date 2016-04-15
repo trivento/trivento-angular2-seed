@@ -6,19 +6,13 @@ import {Injectable} from 'angular2/core';
 @Component({
   selector: 'spinner',
   template: `
-    <div *ngIf="showSpinner" class="spinner"><div>⧗</div></div>
+    <div *ngIf="showSpinner" class="spinner-container">
+      <svg class="spinner" width="56px" height="56px" viewBox="0 0 57 57" xmlns="http://www.w3.org/2000/svg">
+        <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="28" cy="28" r="25"></circle>
+      </svg>
+    </div>
   `,
-  styles: [`
-    .spinner {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      text-align: right;
-      font-size: 24px;
-      color: red;
-    }
-  `]
+  styles: [require('./spinner.scss')]
 })
 export class Spinner {
   showSpinner: boolean;

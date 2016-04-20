@@ -1,11 +1,8 @@
 import {Injectable} from 'angular2/core';
-import {Observable} from 'rxjs/Observable';
 import {Note} from './Note';
 import {Store} from '@ngrx/store';
 import {NotesState} from './notesReducers';
 import {NoteAction} from './NoteAction';
-import {Http, Headers} from 'angular2/http';
-import {Toast2Service} from '../toast2/Toast2Service';
 import {ApiHttp} from '../util/ApiHttp';
 
 const BASE_URL = 'http://localhost:3100/note/';
@@ -13,8 +10,7 @@ const BASE_URL = 'http://localhost:3100/note/';
 @Injectable()
 export class NoteService {
 
-  constructor(private http: ApiHttp, private store: Store<NotesState>,
-              private toast2Service: Toast2Service) {
+  constructor(private http: ApiHttp, private store: Store<NotesState>) {
   }
 
   getAll() {

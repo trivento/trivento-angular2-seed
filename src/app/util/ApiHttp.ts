@@ -10,6 +10,8 @@ import {ResponseOptions} from 'angular2/http';
 import {Subscriber} from 'rxjs/Subscriber';
 import {SpinnerService} from './Spinner';
 
+export const BASE_URL = 'http://localhost:3100';
+
 /**
  * Stores an http request.
  */
@@ -95,19 +97,19 @@ export class ApiHttp {
     this.spinner.start();
     switch(request.method) {
       case RequestMethod.Get:
-        response = this.http.get(request.url,
+        response = this.http.get(BASE_URL + request.url,
           this.intercept(request.method, request.options));
         break;
       case RequestMethod.Post:
-        response = this.http.post(request.url, request.body,
+        response = this.http.post(BASE_URL + request.url, request.body,
           this.intercept(request.method, request.options));
         break;
       case RequestMethod.Put:
-        response = this.http.put(request.url, request.body,
+        response = this.http.put(BASE_URL + request.url, request.body,
           this.intercept(request.method, request.options));
         break;
       case RequestMethod.Delete:
-        response = this.http.delete(request.url,
+        response = this.http.delete(BASE_URL + request.url,
           this.intercept(request.method, request.options));
         break;
     }

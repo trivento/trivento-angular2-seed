@@ -8,17 +8,16 @@ import {Http, Headers} from 'angular2/http';
 import {Toast2Service} from '../toast2/Toast2Service';
 import {ApiHttp} from '../util/ApiHttp';
 
-const BASE_URL = 'http://localhost:3100/note/';
+const URL = '/note/';
 
 @Injectable()
 export class NoteService {
 
-  constructor(private http: ApiHttp, private store: Store<NotesState>,
-              private toast2Service: Toast2Service) {
+  constructor(private http: ApiHttp, private store: Store<NotesState>) {
   }
 
   getAll() {
-    this.http.get(BASE_URL)
+    this.http.get(URL)
       .map(res => res.json())
       .map(payload => NoteAction.getAll(payload))
       .subscribe(action => this.store.dispatch(action));
@@ -29,20 +28,20 @@ export class NoteService {
   }
 
   updateNote(note: Note) {
-    this.http.put(BASE_URL + note.id, JSON.stringify(note))
+    this.http.put(URL + note.id, JSON.stringify(note))
       .map(res => res.json())
       .subscribe(payload => this.store.dispatch(NoteAction.updateNote(payload)));
   }
 
   createNote(note: Note) {
     let noteWithId: Note = Object.assign({}, note, {id: Math.ceil(Math.random() * 1000000)});
-    this.http.post(BASE_URL, JSON.stringify(noteWithId))
+    this.http.post(URL, JSON.stringify(noteWithId))
       .map(res => res.json())
       .subscribe(payload => this.store.dispatch(NoteAction.createNote(payload)));
   }
 
   deleteNote(note: Note) {
-    this.http.delete(BASE_URL + note.id)
+    this.http.delete(URL + note.id)
       .subscribe(() => this.store.dispatch(NoteAction.deleteNote(note)));
   }
 }

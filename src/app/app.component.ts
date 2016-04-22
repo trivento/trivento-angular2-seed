@@ -12,6 +12,7 @@ import {NotesComponent} from './notes/NotesComponent';
 import {Toast2Component} from './toast2/Toast2Component';
 import {AuthPrompt} from './auth/AuthPrompt';
 import {Spinner} from './util/Spinner.ts';
+import {AuthService} from './auth/AuthService';
 
 /*
  * App Component
@@ -43,6 +44,10 @@ import {Spinner} from './util/Spinner.ts';
           |
           <li router-active>
             <a [routerLink]=" ['About'] ">About</a>
+          </li>
+          |
+          <li>
+            <a (click)="logIn()">Login</a>
           </li>
         </ul>
       </nav>
@@ -77,10 +82,14 @@ export class App {
   name = 'Angular 2 Webpack Starter';
   url = 'https://twitter.com/AngularClass';
 
-  constructor(public appState: AppState) {}
+  constructor(private authService: AuthService, public appState: AppState) {}
 
   ngOnInit() {
     console.log('Initial App State', this.appState.state);
+  }
+
+  logIn() {
+    this.authService.promptForAuth();
   }
 
 }

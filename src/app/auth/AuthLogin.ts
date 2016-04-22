@@ -33,6 +33,7 @@ import {Input, Output, EventEmitter} from 'angular2/core';
       width: 100%;
       height: 100%;
       background-color: rgba(1, 1, 1, 0.8);
+      z-index: 9999;
     }
     .auth-login {
       margin: auto auto;

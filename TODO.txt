@@ -9,3 +9,4 @@ X Toast2 -> util
 - naming reducers, actions, services
 - blog apihttp
 - 2684
+- configuratie (base url)

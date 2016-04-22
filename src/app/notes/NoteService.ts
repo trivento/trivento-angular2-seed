@@ -1,11 +1,8 @@
 import {Injectable} from 'angular2/core';
-import {Observable} from 'rxjs/Observable';
 import {Note} from './Note';
 import {Store} from '@ngrx/store';
 import {NotesState} from './notesReducers';
 import {NoteAction} from './NoteAction';
-import {Http, Headers} from 'angular2/http';
-import {Toast2Service} from '../toast2/Toast2Service';
 import {ApiHttp} from '../util/ApiHttp';
 
 const URL = '/note/';

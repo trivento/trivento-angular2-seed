@@ -47,6 +47,9 @@ import {Note} from './Note';
       font-weight: bold;
       padding-bottom: 4px;
     }
+    md-input {
+      width: 100%;
+    }
   `]
 })
 export class NoteDetail {

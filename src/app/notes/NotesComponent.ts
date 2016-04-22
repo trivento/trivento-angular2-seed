@@ -2,7 +2,6 @@ import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs/Observable';
 import {Component} from 'angular2/core';
 import {NotesState} from './notesReducers';
-import {ChangeDetectionStrategy} from 'angular2/core';
 import {NoteAction} from './NoteAction';
 import {NoteService} from './NoteService';
 import {Note} from './Note';

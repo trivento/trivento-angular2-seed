@@ -12,18 +12,33 @@ body {
   margin: 0;
 }
 
-md-toolbar ul {
-  display: inline;
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  width: 60px;
-}
-md-toolbar li {
-  display: inline;
-}
-md-toolbar li.active {
-  background-color: lightgray;
+md-toolbar {
+  nav {
+    padding-left: 24px;
+  }
+  ul {
+    display: inline;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 60px;
+  }
+  li {
+    display: inline;
+
+    a {
+      text-decoration: none;
+      color: white;
+
+      &:hover {
+        background-color: white;
+        color: #2196f3;
+      }
+    }
+  }
+  li.active {
+    font-weight: bold;
+  }
 }
 
 a {

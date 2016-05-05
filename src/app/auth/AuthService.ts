@@ -1,5 +1,5 @@
 import {Injectable} from 'angular2/core';
-import {Http} from 'angular2/http';
+import {Http, Headers} from 'angular2/http';
 import {Store} from '@ngrx/store';
 import {AuthActions} from './reducers/auth';
 import {Toast2Service} from '../toast2/Toast2Service';
@@ -19,11 +19,12 @@ export class AuthService {
   }
 
   logIn(username: string, password: string) {
-    this.http.post(BASE_URL + URL, JSON.stringify({username: username, password: password}))
+    this.http.post(BASE_URL + URL, JSON.stringify({username: username, password: password}),
+        {headers: new Headers({'Content-Type': 'application/json'})})
       .map(res => res.json())
       .subscribe(
-        token => this.store.dispatch(
-          {type: AuthActions.AUTHENTICATED, payload: {token: token}}),
+        data => this.store.dispatch(
+          {type: AuthActions.AUTHENTICATED, payload: {token: data.token}}),
         error => this.toast2Service.error('Invalid username/password combination'));
   }
 }

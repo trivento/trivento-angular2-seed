@@ -10,7 +10,7 @@ import {ResponseOptions} from 'angular2/http';
 import {Subscriber} from 'rxjs/Subscriber';
 import {SpinnerService} from './Spinner';
 
-export const BASE_URL = 'http://localhost:3100';
+export const BASE_URL = 'http://localhost:4040';
 
 /**
  * Stores an http request.

@@ -27,4 +27,9 @@ export class AuthService {
           {type: AuthActions.AUTHENTICATED, payload: {token: data.token}}),
         error => this.toast2Service.error('Invalid username/password combination'));
   }
+
+  logOut() {
+    this.store.dispatch({type: AuthActions.LOGOUT});
+  }
+
 }

@@ -4,6 +4,7 @@
 import {Component, ViewEncapsulation} from 'angular2/core';
 import {RouteConfig, Router} from 'angular2/router';
 import {FORM_PROVIDERS} from 'angular2/common';
+import {Store} from '@ngrx/store';
 
 import {Home} from './home';
 import {AppState} from './app.service';
@@ -11,6 +12,7 @@ import {RouterActive} from './router-active';
 import {NotesComponent} from './notes/NotesComponent';
 import {Toast2Component} from './toast2/Toast2Component';
 import {AuthPrompt} from './auth/AuthPrompt';
+import {AuthState} from './auth/reducers/auth';
 import {Spinner} from './util/Spinner.ts';
 import {AuthService} from './auth/AuthService';
 
@@ -47,7 +49,8 @@ import {AuthService} from './auth/AuthService';
           </li>
           |
           <li>
-            <a (click)="logIn()">Login</a>
+            <a (click)="logIn()" *ngIf="!authState.authenticated">Login</a>
+            <a (click)="logOut()" *ngIf="authState.authenticated">Logout</a>
           </li>
         </ul>
       </nav>
@@ -81,8 +84,14 @@ export class App {
   angularclassLogo = 'assets/img/angularclass-avatar.png';
   name = 'Angular 2 Webpack Starter';
   url = 'https://twitter.com/AngularClass';
+  authState: AuthState;
 
-  constructor(private authService: AuthService, public appState: AppState) {}
+  constructor(private authService: AuthService, private authStore: Store<AuthState>,
+      private router: Router, public appState: AppState) {
+    authStore.select('auth').subscribe((state: AuthState) => {
+      this.authState = state;
+    });
+  }
 
   ngOnInit() {
     console.log('Initial App State', this.appState.state);
@@ -90,6 +99,11 @@ export class App {
 
   logIn() {
     this.authService.promptForAuth();
+  }
+
+  logOut() {
+    this.authService.logOut();
+    this.router.navigate(['Index']);
   }
 
 }

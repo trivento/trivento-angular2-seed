@@ -157,9 +157,11 @@ export class ApiHttp {
    * it can later be fetched to retry it.
    */
   appendToRequestBuffer(origRequest: Request, observer: Subscriber<Response>) {
-    this.requestBuffer.push({
-      origRequest: origRequest, observer: observer
-    });
+    if (!this.requestBuffer.some(request => request.origRequest.url === origRequest.url)) {
+      this.requestBuffer.push({
+        origRequest: origRequest, observer: observer
+      });
+    }
   }
 
   /**

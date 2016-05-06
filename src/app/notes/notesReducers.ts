@@ -2,6 +2,7 @@ import {Reducer, Action} from '@ngrx/store';
 import {Note} from './Note';
 import * as _ from 'lodash';
 import {NoteAction} from './NoteAction';
+import {AuthActions} from '../auth/reducers/auth';
 
 export interface NotesState {
   notes: Note[];
@@ -10,6 +11,8 @@ export interface NotesState {
 
 export const notesReducer: Reducer<any> = (state: any = [], action: Action) => {
   switch (action.type) {
+    case AuthActions.LOGOUT:
+      return [];
     case NoteAction.GET_ALL:
       return action.payload;
     case NoteAction.CREATE:
@@ -29,6 +32,8 @@ export const notesReducer: Reducer<any> = (state: any = [], action: Action) => {
 
 export const selectedNoteReducer: Reducer<Note> = (state: Note = null, action: Action) => {
   switch (action.type) {
+    case AuthActions.LOGOUT:
+      return null;
     case NoteAction.SELECT:
       return action.payload;
     default:

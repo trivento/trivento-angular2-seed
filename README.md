@@ -1,7 +1,7 @@
 
 <p align="center">
   <a href="https://angularclass.com" target="_blank">
-    <img src="https://github.com/trivento/trivento-angular2-seed/raw/master/trivento-angular2-seed.png" alt="Webpack and Angular 2" width="500" height="320"/>
+    <img src="https://github.com/trivento/trivento-angular2-seed/raw/master/trivento-angular2-seed.png" alt="Webpack and Angular 2" width="750" height="320"/>
   </a>
 </p>
 
